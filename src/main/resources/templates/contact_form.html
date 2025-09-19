@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="flex justify-center items-center min-h-screen">
+    <form th:action="@{${contact.id} != null ? '/contacts/update/' + ${contact.id} : '/contacts/save'}"
+          th:object="${contact}"
+          method="post"
+          class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg space-y-6">
+
+        <h2 class="text-2xl font-semibold text-gray-900 text-center">Contact Information Form</h2>
+
+        <!-- Section 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label>Address</label>
+                <input type="text" th:field="*{address1}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>District</label>
+                <input type="text" th:field="*{district}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Amphur</label>
+                <input type="text" th:field="*{amphur}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Province</label>
+                <input type="text" th:field="*{province}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Postal Code</label>
+                <input type="text" th:field="*{postalCode1}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Telephone</label>
+                <input type="text" th:field="*{telephone}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Fax</label>
+                <input type="text" th:field="*{fax}" class="w-full border rounded px-3 py-2"/>
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label>Address</label>
+                <input type="text" th:field="*{address2}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>City</label>
+                <input type="text" th:field="*{city}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>State/Province</label>
+                <input type="text" th:field="*{stateProvince}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Postal Code</label>
+                <input type="text" th:field="*{postalCode2}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Country</label>
+                <input type="text" th:field="*{country}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Contact Person</label>
+                <input type="text" th:field="*{contactPerson}" class="w-full border rounded px-3 py-2"/>
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" th:field="*{email}" class="w-full border rounded px-3 py-2"/>
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <a th:href="@{/contacts}" class="text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-lg px-6 py-3">Cancel</a>
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg px-6 py-3">Save</button>
+        </div>
+
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+</html>
