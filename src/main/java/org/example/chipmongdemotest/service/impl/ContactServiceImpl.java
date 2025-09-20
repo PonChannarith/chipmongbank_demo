@@ -1,3 +1,4 @@
+// ContactServiceImpl.java (Implementation)
 package org.example.chipmongdemotest.service.impl;
 
 import org.example.chipmongdemotest.model.Contact;
@@ -27,7 +28,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void saveContact(Contact contact) {
-        contactMapper.insert(contact); // calls the properly annotated insert
+        contactMapper.insert(contact);
     }
 
     @Override

@@ -1,5 +1,5 @@
+// ContactService.java (Interface)
 package org.example.chipmongdemotest.service;
-
 import org.example.chipmongdemotest.model.Contact;
 import java.util.List;
 
