@@ -1,62 +1,74 @@
 package org.example.chipmongdemotest.controller;
-
-import org.example.chipmongdemotest.model.Contact;
+import org.example.chipmongdemotest.model.*;
+import org.example.chipmongdemotest.repository.*;
 import org.example.chipmongdemotest.service.ContactService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays; // Import the necessary class
-import java.util.List; // Import the necessary class
+import java.util.List;
 
 @Controller
 @RequestMapping("/contacts")
 public class ContactController {
 
     private final ContactService contactService;
+    private final ProvinceMapper provinceMapper;
+    private final AmphurMapper amphurMapper;
+    private final DistrictMapper districtMapper;
 
-    public ContactController(ContactService contactService) {
+    public ContactController(ContactService contactService, ProvinceMapper provinceMapper,
+                             AmphurMapper amphurMapper, DistrictMapper districtMapper) {
         this.contactService = contactService;
+        this.provinceMapper = provinceMapper;
+        this.amphurMapper = amphurMapper;
+        this.districtMapper = districtMapper;
     }
 
-    // Helper method to provide lists for the dropdowns
-    private void addDropdownData(Model model) {
-        // You should get these from a service or a database in a real application
-        List<String> provinces = Arrays.asList("Phnom Penh", "Takeo", "Kandal", "Battambang");
-        List<String> amphurs = Arrays.asList("Khan Daun Penh", "Khan Chamkar Mon", "Doun Keo", "Bati");
-        model.addAttribute("provinces", provinces);
-        model.addAttribute("amphurs", amphurs);
+    // Load all provinces for the form
+    @ModelAttribute("provinces")
+    public List<Province> getProvinces() {
+        return provinceMapper.findAll();
     }
 
-    // Show empty form for creating new contact
+    // Return Amphurs by Province (for AJAX)
+    @GetMapping("/amphurs")
+    @ResponseBody
+    public List<Amphur> getAmphurs(@RequestParam Long provinceId) {
+        return amphurMapper.findByProvinceId(provinceId);
+    }
+
+    // Return Districts by Amphur (for AJAX)
+    @GetMapping("/districts")
+    @ResponseBody
+    public List<District> getDistricts(@RequestParam Long amphurId) {
+        return districtMapper.findByAmphurId(amphurId);
+    }
+
+    // Show new contact form
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String newForm(Model model) {
         model.addAttribute("contact", new Contact());
-        addDropdownData(model); // Add this line to provide the lists
         return "contact_form";
     }
 
-    // Save new contact
+    // Save contact
     @PostMapping("/save")
-    public String saveContact(@ModelAttribute Contact contact) {
+    public String save(@ModelAttribute Contact contact) {
+        if (contact.getProvinceId() != null) {
+            Province p = provinceMapper.findById(contact.getProvinceId());
+            contact.setProvinceName(p != null ? p.getName() : null);
+        }
+        if (contact.getAmphurId() != null) {
+            Amphur a = amphurMapper.findById(contact.getAmphurId());
+            contact.setAmphurName(a != null ? a.getName() : null);
+        }
+        if (contact.getDistrictId() != null) {
+            District d = districtMapper.findById(contact.getDistrictId());
+            contact.setDistrictName(d != null ? d.getName() : null);
+        }
+
         contactService.saveContact(contact);
         return "redirect:/contacts/new?success";
     }
 
-    // Show form with existing contact for editing
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Contact contact = contactService.getContactById(id);
-        model.addAttribute("contact", contact);
-        addDropdownData(model); // Add this line to provide the lists
-        return "contact_form";
-    }
-
-    // Update existing contact
-    @PostMapping("/update/{id}")
-    public String updateContact(@PathVariable Long id, @ModelAttribute Contact contact) {
-        contact.setId(id);
-        contactService.updateContact(contact);
-        return "redirect:/contacts/new?updated";
-    }
 }

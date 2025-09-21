@@ -1,4 +1,3 @@
-// ContactServiceImpl.java (Implementation)
 package org.example.chipmongdemotest.service.impl;
 
 import org.example.chipmongdemotest.model.Contact;
@@ -6,7 +5,6 @@ import org.example.chipmongdemotest.repository.ContactMapper;
 import org.example.chipmongdemotest.service.ContactService;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
 @Service
 public class ContactServiceImpl implements ContactService {
 
@@ -17,27 +15,17 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Contact> getAllContacts() {
-        return contactMapper.findAll();
-    }
+    public List<Contact> getAllContacts() { return contactMapper.findAll(); }
 
     @Override
-    public Contact getContactById(Long id) {
-        return contactMapper.findById(id);
-    }
+    public Contact getContactById(Long id) { return contactMapper.findById(id); }
 
     @Override
-    public void saveContact(Contact contact) {
-        contactMapper.insert(contact);
-    }
+    public void saveContact(Contact contact) { contactMapper.insert(contact); }
 
     @Override
-    public void updateContact(Contact contact) {
-        contactMapper.update(contact);
-    }
+    public void updateContact(Contact contact) { contactMapper.update(contact); }
 
     @Override
-    public void deleteContact(Long id) {
-        contactMapper.delete(id);
-    }
+    public void deleteContact(Long id) { contactMapper.delete(id); }
 }

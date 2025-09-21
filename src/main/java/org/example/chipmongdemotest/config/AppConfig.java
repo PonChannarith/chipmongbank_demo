@@ -16,7 +16,7 @@ public class AppConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        sessionFactory.setTypeAliasesPackage("org.example.chipmongdemotest.model"); // Correct package
+        sessionFactory.setTypeAliasesPackage("org.example.chipmongdemotest.model");
         return sessionFactory.getObject();
     }
 }
